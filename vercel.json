@@ -3,6 +3,10 @@
       {
         "src": "index.js",
         "use": "@vercel/node"
+      },
+      {
+        "src": "bulild/",
+        "use": "@vercel/static"
       }
     ],
     "routes": [
