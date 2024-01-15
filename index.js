@@ -27,15 +27,15 @@ main()
 server.use(cors());
 server.use(express.json());
 server.use(express.static(process.env.PUBLIC_DIR));
-server.use('/user', userRouter);
-server.use('/login', loginRouter);
-server.use('/signup', signupRouter);
-server.use('/otp', otpRouter);
-server.use('/account', accountRouter);
-server.use('/income', incomeRouter);
-server.use('/expense', expenseRouter);
-server.use('/IC', ICRounter);
-server.use('/EC', ECRounter);
+server.use('/api/user', userRouter);
+server.use('/api/login', loginRouter);
+server.use('/api/signup', signupRouter);
+server.use('/api/otp', otpRouter);
+server.use('/api/account', accountRouter);
+server.use('/api/income', incomeRouter);
+server.use('/api/expense', expenseRouter);
+server.use('/api/IC', ICRounter);
+server.use('/api/EC', ECRounter);
 server.use('*',(req,res)=>{
     res.sendFile(path.resolve(process.env.PUBLIC_DIR , 'index.html'));
 })
