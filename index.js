@@ -13,7 +13,6 @@ import incomeRouter from './routers/income.js';
 import expenseRouter from './routers/expense.js';
 import ICRounter from './routers/incomeCategory.js';
 import ECRounter from './routers/expenseCategory.js';
-import { send } from 'process';
 const server = express();
 
 // DB Connections
