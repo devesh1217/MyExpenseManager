@@ -11,7 +11,7 @@ const loginRoute = {
                 if (bcrypt.compare(pswd,doc.password)) {
                     try {
                         var token = jwt.sign(
-                            { userId: id, exp: Math.floor(Date.now() / 1000) + (3600*24*30), },
+                            { userId: id },
                             process.env.PRIVATE_KEY
                         );
                         res.status(201).json({ token,isValid: true });

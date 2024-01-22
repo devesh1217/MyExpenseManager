@@ -23,7 +23,7 @@ const signupRoute = {
         .then((doc)=>{
             try{
                 var token = jwt.sign(
-                    { userId: req.body.userId,exp: Math.floor(Date.now() / 1000) + 15, },
+                    { userId: req.body.userId},
                     process.env.PRIVATE_KEY
                 );
                 res.status(201).json({token,userId:data.userId});
