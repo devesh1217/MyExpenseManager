@@ -15,6 +15,7 @@ webpush.setVapidDetails(
 const subscriptionRoute = {
     save:async (req,res)=>{
         const data = (req.body);
+        console.log(req.body)
         userSchema.updateOne({userId:data.userId},{subscription: data.subscription})
         .then(doc=>{
             res.json({success:true});

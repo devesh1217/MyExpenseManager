@@ -1,9 +1,9 @@
-let id, token;
+let id,token;
 const ch4 = new BroadcastChannel('ch4');
-ch4.onmessage = (e => {
-    id = e.data.id;
-    token = e.data.token;
-    console.log(id, token)
+ch4.onmessage=(e=>{
+    id=e.data.id;
+    token=e.data.token;
+    console.log(id,token)
 })
 console.log('hi SW')
 function urlBase64ToUint8Array(base64String) {
@@ -20,49 +20,29 @@ function urlBase64ToUint8Array(base64String) {
     }
     return outputArray;
 }
-async function save(sub) {
-    console.log(token)
-    await fetch('/api/subscription/save', {
-        method: 'POST',
-        body: JSON.stringify(sub),
-        headers: { 'Content-type': "application/json", Authorization: `Bearer ${token}` }
+async function save(sub){
+    await fetch('/api/subscription/save',{
+        method:'POST',
+        body:JSON.stringify(sub),
+        headers: {'Content-type':"application/json",'Authorization': `Bearer ${token}`}
     })
-        .then(data => data.json())
-        .then(doc => {
-            console.log(doc)
-        }).catch(err => {
-            console.log(err)
-        });
+    .then(data=>data.json())
+    .then(doc=>{
+        console.log(doc)
+    });
 }
 
-self.addEventListener("activate", async (e) => {
+self.addEventListener("activate",async (e)=>{
     const subscription = await self.registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array('BNOGUi-eC2wjhs2_v78dkfp8IMriCQRuwnuAWGEMTNLrIPMvnYveaz7dcIno3q-1TQdmKFwO1fBRxpvstObVMec')
+        userVisibleOnly:true,
+        applicationServerKey:urlBase64ToUint8Array('BNOGUi-eC2wjhs2_v78dkfp8IMriCQRuwnuAWGEMTNLrIPMvnYveaz7dcIno3q-1TQdmKFwO1fBRxpvstObVMec')
     })
-    ans = { userId: id, subscription }
-    console.log(ans, JSON.stringify(ans), token)
+    ans={userId:id,subscription}
+    console.log(ans,JSON.stringify(ans))
     save(ans);
 })
 
-self.addEventListener('push', async (e) => {
+self.addEventListener('push',async (e)=>{
     let x = JSON.parse(e.data.text())
-    self.registration.showNotification(
-        x.title,
-        { 
-            body: x.desc,
-            icon: x.icon,
-            actions: x.actions  
-        }
-    )
+    self.registration.showNotification(x.title,{body:x.desc})
 })
-
-self.addEventListener('notificationclick', event => {
-    const action = event.action;
-    console.log(action) 
-    if (action === 'openWebApp') {
-        event.waitUntil(
-            clients.openWindow('http://locahost:8080/')
-        );
-    }
-});
