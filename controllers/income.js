@@ -1,5 +1,20 @@
 import incomeSchema from '../model/income.js'
 import accountSchema from '../model/account.js'
+import userSchema from '../model/user.js'
+import webpush from 'web-push'
+
+
+const keys = {
+    PublicKey:'BNOGUi-eC2wjhs2_v78dkfp8IMriCQRuwnuAWGEMTNLrIPMvnYveaz7dcIno3q-1TQdmKFwO1fBRxpvstObVMec',
+    PrivateKey: 'Q6u-9wkxYZZUEaErQ6pxhKeMVB1_BsxgKdwfH8qSeXQ'
+}
+
+webpush.setVapidDetails(
+    'mailto:u22cs035@coed.svnit.ac.in',
+    keys.PublicKey,
+    keys.PrivateKey
+)
+
 
 const incomeRoute = {
     // create: async (req, res, next) => {
@@ -25,6 +40,21 @@ const incomeRoute = {
             balance.currentBalance += newData.amount;
 
             updated = await accountSchema.updateOne({ userId: newData.userId, accountId: newData.account }, { $set: { currentBalance: balance.currentBalance } });
+
+            if(req.body.receivedFrom){
+                const user= await userSchema.findOne({userId:req.body.userId});
+                webpush.sendNotification(
+                    user.subscription,
+                    JSON.stringify({
+                        title:"Recieved ₹ "+req.body.amount+" from "+req.body.receivedFrom,
+                        desc:req.body.title,
+                        icon:'/logo192.png',
+                        actions: [
+                            { action: 'openWebApp', title: 'Open Web App' },
+                        ],
+                    })
+                );
+            }
 
             res.status(201).json(newData);
         } catch (err) {

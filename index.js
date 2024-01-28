@@ -13,6 +13,7 @@ import incomeRouter from './routers/income.js';
 import expenseRouter from './routers/expense.js';
 import ICRounter from './routers/incomeCategory.js';
 import ECRounter from './routers/expenseCategory.js';
+import subscriptionRouter from './routers/subscription.js';
 const server = express();
 
 // DB Connections
@@ -54,6 +55,7 @@ server.use('/api/income', auth, incomeRouter);
 server.use('/api/expense', auth, expenseRouter);
 server.use('/api/IC', auth, ICRounter);
 server.use('/api/EC', auth, ECRounter);
+server.use('/api/subscription', auth, subscriptionRouter);
 
 
 server.use('*', (req, res) => {

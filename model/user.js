@@ -36,6 +36,10 @@ const schema = new mongoose.Schema({
     profession: {
         type: String,
     },
+    subscription:{
+        type:Schema.Types.Mixed,
+        required:true,
+    }
 });
 
 const user = mongoose.model('user', schema);
