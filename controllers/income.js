@@ -59,7 +59,7 @@ const incomeRoute = {
             res.status(201).json(newData);
         } catch (err) {
             console.log(err);
-            res.sendStatus(500);
+            res.status(500).json(newData);
         }
 
     },
