@@ -41,25 +41,29 @@ const incomeRoute = {
 
             updated = await accountSchema.updateOne({ userId: newData.userId, accountId: newData.account }, { $set: { currentBalance: balance.currentBalance } });
 
-            if(req.body.receivedFrom){
-                const user= await userSchema.findOne({userId:req.body.userId});
-                webpush.sendNotification(
-                    user.subscription,
-                    JSON.stringify({
-                        title:"Recieved ₹ "+req.body.amount+" from "+req.body.receivedFrom,
-                        desc:req.body.title,
-                        icon:'/logo192.png',
-                        actions: [
-                            { action: 'openWebApp', title: 'Open Web App' },
-                        ],
-                    })
-                );
+            try{
+                if(req.body.receivedFrom){
+                    const user= await userSchema.findOne({userId:req.body.userId});
+                    webpush.sendNotification(
+                        user.subscription,
+                        JSON.stringify({
+                            title:"Recieved ₹ "+req.body.amount+" from "+req.body.receivedFrom,
+                            desc:req.body.title,
+                            icon:'/logo192.png',
+                            actions: [
+                                { action: 'openWebApp', title: 'Open Web App' },
+                            ],
+                        })
+                    );
+                }
+            }catch(err){
+                console.log(err);
             }
 
             res.status(201).json(newData);
         } catch (err) {
             console.log(err);
-            res.status(500).json(newData);
+            res.sendStatus(500);
         }
 
     },

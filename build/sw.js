@@ -38,7 +38,15 @@ self.addEventListener("activate",async (e)=>{
         applicationServerKey:urlBase64ToUint8Array('BNOGUi-eC2wjhs2_v78dkfp8IMriCQRuwnuAWGEMTNLrIPMvnYveaz7dcIno3q-1TQdmKFwO1fBRxpvstObVMec')
     })
     ans={userId:id,subscription}
-    console.log(ans,JSON.stringify(ans))
+    save(ans);
+})
+
+self.addEventListener("install",async (e)=>{
+    const subscription = await self.registration.pushManager.subscribe({
+        userVisibleOnly:true,
+        applicationServerKey:urlBase64ToUint8Array('BNOGUi-eC2wjhs2_v78dkfp8IMriCQRuwnuAWGEMTNLrIPMvnYveaz7dcIno3q-1TQdmKFwO1fBRxpvstObVMec')
+    })
+    ans={userId:id,subscription}
     save(ans);
 })
 
