@@ -37,8 +37,7 @@ const schema = new mongoose.Schema({
         type: String,
     },
     subscription:{
-        type:Schema.Types.Mixed,
-        required:true,
+        type:Schema.Types.Mixed
     }
 });
 
